@@ -2,12 +2,45 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ラスクラ夜の世界</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ラスクラ - 夜の世界</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+  </style>
 </head>
-<body style="background-color:#000;color:#fff;text-align:center;font-family:sans-serif;">
-  <h1>🌙 ラスクラ 夜の世界 - Coming Soon...</h1>
-  <p>本物のデモ版を準備中！</p>
+<body>
+  <h1>🌙 ラスクラ - 夜の世界</h1>
+  <p>音が聞こえる？ 静かな夜が始まる…</p>
+  <audio id="bgm" autoplay loop>
+    <source src="audio/bgm.mp3" type="audio/mp3">
+    お使いのブラウザは audio タグをサポートしていません。
+  </audio>
+  <audio id="step" preload="auto">
+    <source src="audio/step.mp3" type="audio/mp3">
+  </audio>
+  <audio id="jump" preload="auto">
+    <source src="audio/jump.mp3" type="audio/mp3">
+  </audio>
+  <audio id="wind" autoplay loop>
+    <source src="audio/wind.mp3" type="audio/mp3">
+  </audio>
+  <audio id="crow" autoplay loop>
+    <source src="audio/crow.mp3" type="audio/mp3">
+  </audio>
 </body>
 </html>
