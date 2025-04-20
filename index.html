@@ -3,67 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ラスクラ - 夜の世界（安定版）</title>
+  <title>ラスクラ - 夜の世界 サバイバルβ</title>
   <style>
-    body {
-      margin: 0;
-      background-color: #000;
-      color: #fff;
-      font-family: 'Arial', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-image: radial-gradient(circle, #111 0%, #000 80%);
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: #39ff14;
-    }
-    button {
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      background-color: #39ff14;
-      color: #000;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 0 8px #39ff14;
-    }
-    button:hover {
-      background-color: #2ecc71;
+    body { margin: 0; overflow: hidden; background: #000; }
+    #startButton {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 1rem 2rem; font-size: 1.2rem;
+      background: #39ff14; color: #000;
+      border: none; border-radius: 10px;
+      cursor: pointer; box-shadow: 0 0 10px #39ff14;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
-  <h1>🌙 ラスクラ - 夜の世界</h1>
-  <p>ボタンを押して、静かな夜に音を響かせよう</p>
-  <button onclick="startAudio()">🎵 音を再生する</button>
+  <button id="startButton">🌌 冒険をはじめる</button>
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.module.js';
+    import { PointerLockControls } from 'https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/controls/PointerLockControls.js';
 
-  <audio id="bgm" preload="auto" loop>
-    <source src="bgm.mp3" type="audio/mp3">
-  </audio>
-  <audio id="step" preload="auto">
-    <source src="step.mp3" type="audio/mp3">
-  </audio>
-  <audio id="jump" preload="auto">
-    <source src="jump.mp3" type="audio/mp3">
-  </audio>
-  <audio id="wind" preload="auto" loop>
-    <source src="wind.mp3" type="audio/mp3">
-  </audio>
-  <audio id="crow" preload="auto" loop>
-    <source src="crow.mp3" type="audio/mp3">
-  </audio>
+    let camera, scene, renderer, controls;
+    let enemy;
 
-  <script>
-    function startAudio() {
-      document.getElementById("bgm").play();
-      document.getElementById("wind").play();
-      document.getElementById("crow").play();
+    document.getElementById('startButton').addEventListener('click', () => {
+      document.getElementById('startButton').style.display = 'none';
+      init();
+      animate();
+      controls.lock(); // ← 強制ロック追加
+    });
+
+    function init() {
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x000000);
+
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+      renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      controls = new PointerLockControls(camera, document.body);
+      scene.add(controls.getObject());
+
+      const light = new THREE.HemisphereLight(0xffffff, 0x222222);
+      scene.add(light);
+
+      const floorGeo = new THREE.PlaneGeometry(500, 500);
+      const floorMat = new THREE.MeshStandardMaterial({ color: 0x222a22 });
+      const floor = new THREE.Mesh(floorGeo, floorMat);
+      floor.rotation.x = -Math.PI / 2;
+      scene.add(floor);
+
+      for (let i = 0; i < 50; i++) {
+        const tree = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.5, 0.5, 5, 8),
+          new THREE.MeshStandardMaterial({ color: 0x553311 })
+        );
+        tree.position.set((Math.random() - 0.5) * 400, 2.5, (Math.random() - 0.5) * 400);
+        scene.add(tree);
+      }
+
+      enemy = new THREE.Mesh(
+        new THREE.SphereGeometry(1.5, 16, 16),
+        new THREE.MeshStandardMaterial({ color: 0x111111 })
+      );
+      enemy.position.set(0, 1.5, -30);
+      scene.add(enemy);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      enemy.position.x += (Math.random() - 0.5) * 0.2;
+      enemy.position.z += (Math.random() - 0.5) * 0.2;
+
+      const distance = camera.position.distanceTo(enemy.position);
+      if (distance < 5) {
+        document.body.style.backgroundColor = '#300';
+        setTimeout(() => {
+          document.body.style.backgroundColor = '#000';
+        }, 100);
+      }
+
+      renderer.render(scene, camera);
     }
   </script>
 </body>
