@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ラスクラ - 夜の世界 サバイバルβ</title>
+  <title>ラスクラ - 夜の世界 サバイバル FINAL</title>
   <style>
     body { margin: 0; overflow: hidden; background: #000; }
     #startButton {
@@ -25,13 +25,7 @@
 
     let camera, scene, renderer, controls;
     let enemy;
-
-    document.getElementById('startButton').addEventListener('click', () => {
-      document.getElementById('startButton').style.display = 'none';
-      init();
-      animate();
-      controls.lock(); // ← 強制ロック追加
-    });
+    let started = false;
 
     function init() {
       scene = new THREE.Scene();
@@ -73,6 +67,8 @@
 
     function animate() {
       requestAnimationFrame(animate);
+      if (!started) return;
+
       enemy.position.x += (Math.random() - 0.5) * 0.2;
       enemy.position.z += (Math.random() - 0.5) * 0.2;
 
@@ -86,6 +82,22 @@
 
       renderer.render(scene, camera);
     }
+
+    document.getElementById('startButton').addEventListener('click', () => {
+      document.getElementById('startButton').style.display = 'none';
+
+      // 最初にロック → 成功時にinit + animate
+      controls = new PointerLockControls(camera ?? new THREE.PerspectiveCamera(), document.body);
+      controls.lock();
+
+      controls.addEventListener('lock', () => {
+        if (!started) {
+          init();
+          animate();
+          started = true;
+        }
+      });
+    });
   </script>
 </body>
 </html>
