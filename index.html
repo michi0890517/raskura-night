@@ -16,34 +16,28 @@
       justify-content: center;
       height: 100vh;
     }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
     button {
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      background-color: #39ff14;
+      padding: 1rem 2rem;
+      background: #39ff14;
       color: #000;
+      font-weight: bold;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       box-shadow: 0 0 8px #39ff14;
-      transition: 0.2s ease;
+      font-size: 1.2rem;
     }
-    button:hover {
-      transform: scale(1.05);
-      background-color: #2ecc71;
+    h1 {
+      margin-bottom: 1rem;
     }
   </style>
 </head>
 <body>
-  <h1>🌙 ラスクラ - 夜の世界</h1>
-  <p>音が聞こえる？ 静かな夜が始まる…</p>
-
+  <h1>🌙 ラスクラ 夜の世界</h1>
+  <p>ボタンを押して、夜の音を響かせよう。</p>
   <button onclick="startAudio()">🎵 音を再生する</button>
 
-  <audio id="bgm" loop>
+  <audio id="bgm" preload="auto" loop>
     <source src="bgm.mp3" type="audio/mp3">
   </audio>
   <audio id="step" preload="auto">
@@ -52,18 +46,18 @@
   <audio id="jump" preload="auto">
     <source src="jump.mp3" type="audio/mp3">
   </audio>
-  <audio id="wind" loop>
+  <audio id="wind" preload="auto" loop>
     <source src="wind.mp3" type="audio/mp3">
   </audio>
-  <audio id="crow" loop>
+  <audio id="crow" preload="auto" loop>
     <source src="crow.mp3" type="audio/mp3">
   </audio>
 
   <script>
     function startAudio() {
-      document.getElementById('bgm').play();
-      document.getElementById('wind').play();
-      document.getElementById('crow').play();
+      document.getElementById("bgm").play();
+      document.getElementById("wind").play();
+      document.getElementById("crow").play();
     }
   </script>
 </body>
