@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -21,14 +20,31 @@
       font-size: 2.5rem;
       margin-bottom: 1rem;
     }
+    button {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      background-color: #39ff14;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 8px #39ff14;
+      transition: 0.2s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+      background-color: #2ecc71;
+    }
   </style>
 </head>
 <body>
   <h1>🌙 ラスクラ - 夜の世界</h1>
   <p>音が聞こえる？ 静かな夜が始まる…</p>
-  <audio id="bgm" autoplay loop>
+
+  <button onclick="startAudio()">🎵 音を再生する</button>
+
+  <audio id="bgm" loop>
     <source src="audio/bgm.mp3" type="audio/mp3">
-    お使いのブラウザは audio タグをサポートしていません。
   </audio>
   <audio id="step" preload="auto">
     <source src="audio/step.mp3" type="audio/mp3">
@@ -36,11 +52,19 @@
   <audio id="jump" preload="auto">
     <source src="audio/jump.mp3" type="audio/mp3">
   </audio>
-  <audio id="wind" autoplay loop>
+  <audio id="wind" loop>
     <source src="audio/wind.mp3" type="audio/mp3">
   </audio>
-  <audio id="crow" autoplay loop>
+  <audio id="crow" loop>
     <source src="audio/crow.mp3" type="audio/mp3">
   </audio>
+
+  <script>
+    function startAudio() {
+      document.getElementById('bgm').play();
+      document.getElementById('wind').play();
+      document.getElementById('crow').play();
+    }
+  </script>
 </body>
 </html>
